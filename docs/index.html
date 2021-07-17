@@ -16,6 +16,8 @@
     <script src="./assets/syntax-highlighter/scripts/shBrushAsm.js"></script>
     <link href="./assets/syntax-highlighter/styles/shCoreDefault.css" rel="stylesheet">
 
+    <link rel="stylesheet" href="style.css">
+
     <script type="text/javascript">SyntaxHighlighter.all();</script>
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -388,7 +390,13 @@
                             <p>We compile, link and run the program using the commands below.</p>
 
                         <div class="snippet">
-                            <span class="filename">helloworld.asm</span>
+
+			    <input type="radio" name="tabs" id="tab1" checked />
+			    <label for="tab1">NASM: helloworld.asm</label>
+			    <input type="radio" name="tabs" id="tab2" />
+			    <label for="tab2">GAS: helloworld.S</label>
+
+			    <div class="tab content1">
                             <pre class="brush: asm;">
                             ; Hello World Program - asmtutor.com
                             ; Compile with: nasm -f elf helloworld.asm
@@ -418,6 +426,44 @@
                                     <span>Segmentation fault</span>
                                 </div>
                             </div>
+			    </div>
+
+
+			    <div class="tab content2">
+                            <pre class="brush: asm;">
+# Gas hello world example
+# gcc -c helloworld.S
+# ld hello32bit.o -o hello32bit
+# ./hello32bit
+
+    .data
+msg: 	.asciz 	"Hello gas! 32bit\n"
+
+    .global _start
+    .text
+_start:
+    mov 	$17, %edx 	# count of bytes in output message
+    mov 	$msg, %ecx 	# fill arguments (output buffer)
+    mov 	$1, %ebx 	# fill arguments (standart fd stdout == 1)
+    mov 	$4, %eax 	# fill arguments (opcode for syscall write = 4)
+    int 	$0x80
+
+    mov 	$0, %ebx 	# 0 status of exit. (no errors)
+    mov 	$1, %eax 	# call exit syscall
+    int 	$0x80
+                            </pre>
+                            <div class="output">
+                                <div class="inner">
+                                    <span>~$ gcc -c helloworld.S</span>
+                                    <span>~$ ld helloworld.o -o helloworld</span>
+                                    <span>~$ ./helloworld</span>
+                                    <span>Hello World!</span>
+                                    <span>Segmentation fault</span>
+                                </div>
+                            </div>
+			    </div>
+
+
                         </div>
 
                         <p>
